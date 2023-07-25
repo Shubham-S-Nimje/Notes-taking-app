@@ -2,16 +2,12 @@ const express = require("express");
 
 const router = express.Router();
 
-router.get("/", (req, res, next) => {
-  res.render("notes/index", {
-    pageTitle: "Notes",
-  });
-});
+const notesController = require("../controllers/notes");
 
-router.get("/add-note", (req, res, next) => {
-  res.render("notes/add-note", {
-    pageTitle: "Add a note",
-  });
-});
+router.get("/",notesController.getIndex);
+
+router.get("/add-note", notesController.getAddnote);
+
+router.post('/add-note', notesController.postNote)
 
 module.exports = router;
