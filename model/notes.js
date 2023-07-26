@@ -35,4 +35,8 @@ module.exports = class Notes {
       });
     });
   }
+
+  static fetchAll(callbackFn) {
+    getDataFromFile(callbackFn);
+  }
 };

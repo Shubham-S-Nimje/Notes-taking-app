@@ -2,9 +2,12 @@ const { response } = require("express");
 const Notes = require("../model/notes");
 
 exports.getIndex = (req, res, next) => {
-  res.render("notes/index", {
-    pageTitle: "Notes",
-    path: "/",
+  Notes.fetchAll((notes) => {
+    res.render("notes/index", {
+      pageTitle: "Notes",
+      path: "/",
+      notes: notes,
+    });
   });
 };
 
