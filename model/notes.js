@@ -18,7 +18,8 @@ const getDataFromFile = (callbackFn) => {
 };
 
 module.exports = class Notes {
-  constructor(title, description, imageUrl) {
+  constructor(noteId, title, description, imageUrl) {
+    this.noteId = noteId;
     this.title = title;
     this.description = description;
     this.imageUrl = imageUrl;
@@ -36,6 +37,19 @@ module.exports = class Notes {
     });
   }
 
+  saveChanges() {
+    getDataFromFile((notes) => {
+      const noteIndex = notes.findIndex((n) => n.noteId === this.noteId);
+      const notesCopy = [...notes];
+      notesCopy[noteIndex] = this;
+      fs.writeFile(pathToFile, JSON.stringify(notesCopy), (err) => {
+        if (err) {
+          console.log('error in saving file', err);
+        }
+      });
+    });
+  }
+
   static fetchAll(callbackFn) {
     getDataFromFile(callbackFn);
   }
@@ -47,3 +61,4 @@ module.exports = class Notes {
     });
   };
 };
+

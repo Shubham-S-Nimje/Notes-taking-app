@@ -10,7 +10,14 @@ router.get('/add-note', notesController.getAddnote);
 
 router.post('/add-note', notesController.postNote);
 
-router.get('/note/:noteId', notesController.getNoteDetails);//dynamic params
+//dynamic params
+router.get('/note/:noteId', notesController.getNoteDetails);
+
+router.get('/add-note/:noteId', notesController.getEditNoteDetails);
+
+router.post('/edit-note', notesController.saveEditNote);
+
+
 
 
 module.exports = router;

@@ -3,7 +3,7 @@
 
 <main class="container">
   <h1>Add a note</h1>
-  <form action='/add-note' method="POST">
+  <form action="<%= isEditMode ? '/edit-note' : '/add-note' %>" method="POST">
     <div class="form-floating m-2">
       <input
         type="text"
@@ -11,6 +11,7 @@
         id="floatingInput"
         placeholder="Title here"
         name="title"
+        value="<%= isEditMode ? note.title : '' %>"
       />
       <label for="floatingInput">Title</label>
     </div>
@@ -22,7 +23,9 @@
         id="floatingTextarea2"
         style="height: 200px"
         name="description"
-      ></textarea>
+      >
+<%= isEditMode ? note.description : '' %>"
+      </textarea>
       <label for="floatingTextarea2">Description</label>
     </div>
 
@@ -33,11 +36,16 @@
         id="floatingImage"
         name="imageUrl"
         placeholder="Image url"
+        value="<%= isEditMode ? note.imageUrl : '' %>"
       />
       <label for="floatingImage"> Image url </label>
     </div>
-
-    <button class="btn btn-primary py-2 m-2" type="submit">Add</button>
+    <% if (isEditMode) { %>
+    <input type="hidden" name="noteId" value="<%= note.noteId %>" />
+    <% } %>
+    <button class="btn btn-primary py-2 m-2" type="submit">
+      <%= isEditMode ? 'Save Changes' : 'Add' %>
+    </button>
 
     <a href="/" class="btn btn-danger py-2 m-2">Cancel</a>
   </form>

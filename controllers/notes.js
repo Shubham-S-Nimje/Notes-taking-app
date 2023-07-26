@@ -21,7 +21,7 @@ exports.getAddnote = (req, res, next) => {
 exports.postNote = (req, res, next) => {
   const reqBody = req.body;
   const { title, description, imageUrl } = reqBody;
-  const note = new Notes(title, description, imageUrl);
+  const note = new Notes(null, title, description, imageUrl);
   note.save();
   res.redirect("/");
 };
@@ -29,11 +29,32 @@ exports.postNote = (req, res, next) => {
 exports.getNoteDetails = (req, res, next) => {
   const noteId = req.params.noteId;
   Notes.findNotebyId(noteId, (note) => {
-    res.render('notes/note', {
-      pageTitle: 'View Note Details',
-      path: '',
+    res.render("notes/note", {
+      pageTitle: "View Note Details",
+      path: "",
       note: note,
-    })
-  })
-  console.log(noteId)
+    });
+  });
+};
+
+exports.getEditNoteDetails = (req, res, next) => {
+  const noteId = req.params.noteId;
+  const isEdit = req.query.isEditing;
+  Notes.findNotebyId(noteId, (note) => {
+    res.render("notes/add-note", {
+      pageTitle: "Editing a note",
+      path: "",
+      note: note,
+      isEditMode: isEdit,
+    });
+  });
+};
+
+exports.saveEditNote = (req, res, next) => {
+  const reqBody = req.body;
+  const { title, description, imageUrl, noteId } = reqBody;
+
+  const note = new Notes(noteId, title, description, imageUrl);
+  note.saveChanges();
+  res.redirect(`/note/${noteId}`);
 };
