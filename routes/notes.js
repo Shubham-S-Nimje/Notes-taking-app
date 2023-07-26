@@ -17,7 +17,7 @@ router.get('/add-note/:noteId', notesController.getEditNoteDetails);
 
 router.post('/edit-note', notesController.saveEditNote);
 
-
+router.post('/delete-note', notesController.deleteNote);
 
 
 module.exports = router;

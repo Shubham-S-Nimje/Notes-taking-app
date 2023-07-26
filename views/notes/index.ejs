@@ -36,13 +36,10 @@
                   >
                     Edit
                   </a>
-                  <a
-                  href="/"
-                    type="button"
-                    class="btn btn-sm btn-outline-secondary"
-                  >
-                    Delete
-                  </a>
+                  <form action="/delete-note" method="POST">
+                    <input type="hidden" name="noteId" value="<%= note.noteId %>" />
+                    <button class="btn btn-sm btn-outline-secondary">Delete</button>
+                  </form>
                 </div>
               </div>
             </div>

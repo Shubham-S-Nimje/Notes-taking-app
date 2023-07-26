@@ -58,3 +58,9 @@ exports.saveEditNote = (req, res, next) => {
   note.saveChanges();
   res.redirect(`/note/${noteId}`);
 };
+
+exports.deleteNote = (req, res, next) => {
+  const noteId = req.body.noteId;
+  Notes.delete(noteId);
+  res.redirect('/');
+};

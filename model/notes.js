@@ -44,7 +44,7 @@ module.exports = class Notes {
       notesCopy[noteIndex] = this;
       fs.writeFile(pathToFile, JSON.stringify(notesCopy), (err) => {
         if (err) {
-          console.log('error in saving file', err);
+          console.log("error in saving file", err);
         }
       });
     });
@@ -60,5 +60,15 @@ module.exports = class Notes {
       callbackFn(note);
     });
   };
-};
 
+  static delete(noteId) {
+    getDataFromFile((notes) => {
+      const note = notes.filter((n) => n.noteId !== noteId);
+      fs.writeFile(pathToFile, JSON.stringify(note), (err) => {
+        if (err) {
+          console.log("error in saving file", err);
+        }
+      });
+    });
+  }
+};
