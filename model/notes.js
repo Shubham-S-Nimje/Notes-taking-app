@@ -39,4 +39,11 @@ module.exports = class Notes {
   static fetchAll(callbackFn) {
     getDataFromFile(callbackFn);
   }
+
+  static findNotebyId = (noteId, callbackFn) => {
+    getDataFromFile((notes) => {
+      const note = notes.find((note) => note.noteId === noteId);
+      callbackFn(note);
+    });
+  };
 };

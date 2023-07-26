@@ -25,3 +25,15 @@ exports.postNote = (req, res, next) => {
   note.save();
   res.redirect("/");
 };
+
+exports.getNoteDetails = (req, res, next) => {
+  const noteId = req.params.noteId;
+  Notes.findNotebyId(noteId, (note) => {
+    res.render('notes/note', {
+      pageTitle: 'View Note Details',
+      path: '',
+      note: note,
+    })
+  })
+  console.log(noteId)
+};
