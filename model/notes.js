@@ -23,6 +23,7 @@ module.exports = class Notes {
     this.title = title;
     this.description = description;
     this.imageUrl = imageUrl;
+    this.status = 'unapproved';
   }
 
   save() {
@@ -50,8 +51,14 @@ module.exports = class Notes {
     });
   }
 
-  static fetchAll(callbackFn) {
-    getDataFromFile(callbackFn);
+  static fetchAll(callbackFn, isAdmin) {
+    getDataFromFile((notes) => {
+      if (isAdmin) {
+        return callbackFn(notes);
+      }
+      const approvedNotes = notes.filter((n) => n.status === 'approved');
+      callbackFn(approvedNotes);
+    });
   }
 
   static findNotebyId = (noteId, callbackFn) => {
@@ -67,6 +74,24 @@ module.exports = class Notes {
       fs.writeFile(pathToFile, JSON.stringify(note), (err) => {
         if (err) {
           console.log("error in saving file", err);
+        }
+      });
+    });
+  }
+
+  static approve(noteId) {
+    getDataFromFile((notes) => {
+      const noteIndex = notes.findIndex((n) => n.noteId === noteId);
+      const notesCopy = [...notes];
+      const singleNote = notesCopy[noteIndex];
+      const notesToApprove = {
+        ...singleNote,
+        status: singleNote.status === 'approved' ? 'unapproved' : 'approved',
+      };
+      notesCopy[noteIndex] = notesToApprove;
+      fs.writeFile(pathToFile, JSON.stringify(notesCopy), (err) => {
+        if (err) {
+          console.log('error in saving file', err);
         }
       });
     });
