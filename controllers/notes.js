@@ -1,17 +1,24 @@
+const { response } = require("express");
+const Notes = require("../model/notes");
+
 exports.getIndex = (req, res, next) => {
-    res.render("notes/index", {
-      pageTitle: "Notes",
-      path: '/'
-    });
-  }
+  res.render("notes/index", {
+    pageTitle: "Notes",
+    path: "/",
+  });
+};
 
-  exports.getAddnote = (req, res, next) => {
-    res.render("notes/add-note", {
-      pageTitle: "Add a note",
-      path: '/add-notes'
-    });
-  }
+exports.getAddnote = (req, res, next) => {
+  res.render("notes/add-note", {
+    pageTitle: "Add a note",
+    path: "/add-notes",
+  });
+};
 
-  exports.postNote = (req, res, next) => {
-    console.log(req.body)
-  }
+exports.postNote = (req, res, next) => {
+  const reqBody = req.body;
+  const { title, description, imageUrl } = reqBody;
+  const note = new Notes(title, description, imageUrl);
+  note.save();
+  res.redirect("/");
+};
