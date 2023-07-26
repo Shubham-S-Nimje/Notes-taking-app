@@ -15,6 +15,7 @@ exports.getAddnote = (req, res, next) => {
   res.render("notes/add-note", {
     pageTitle: "Add a note",
     path: "/add-notes",
+    isEditMode: '',
   });
 };
 
